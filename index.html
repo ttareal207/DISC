@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DISC Personality Test – Khám Phá Bản Thân</title>
+  <meta name="description" content="Bài kiểm tra tính cách DISC giúp bạn khám phá phong cách hành vi và giao tiếp của mình qua 30 câu hỏi chuyên sâu." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+  <!-- Watermark -->
+  <div class="watermark-bg" aria-hidden="true">ttareal</div>
+  <div class="particles" id="particles-container"></div>
+
+  <!-- SCREEN 1: WELCOME -->
+  <section id="screen-welcome" class="screen active">
+    <div class="welcome-wrapper">
+      <div class="brand-badge"><span class="badge-icon">🧬</span><span>DISC Psychology Assessment</span></div>
+      <h1 class="hero-title">Khám Phá <span class="gradient-text">Bản Thân</span> Qua<br />Mô Hình DISC</h1>
+      <p class="hero-desc">Bài kiểm tra <strong>48 nhóm từ</strong> theo chuẩn Most/Least quốc tế (Everything DiSC – Wiley) giúp bạn hiểu rõ phong cách hành vi, điểm mạnh và cách tương tác hiệu quả với mọi người.</p>
+      <div class="disc-preview-cards">
+        <div class="disc-card d-card"><div class="disc-letter">D</div><div class="disc-name">Dominance</div><div class="disc-desc">Quyết đoán · Mạnh mẽ</div></div>
+        <div class="disc-card i-card"><div class="disc-letter">I</div><div class="disc-name">Influence</div><div class="disc-desc">Nhiệt huyết · Xã giao</div></div>
+        <div class="disc-card s-card"><div class="disc-letter">S</div><div class="disc-name">Steadiness</div><div class="disc-desc">Kiên định · Đáng tin</div></div>
+        <div class="disc-card c-card"><div class="disc-letter">C</div><div class="disc-name">Conscientiousness</div><div class="disc-desc">Chính xác · Phân tích</div></div>
+      </div>
+      <div class="info-stats">
+        <div class="stat-item"><span class="stat-num">48</span><span class="stat-label">Nhóm từ</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><span class="stat-num">~15</span><span class="stat-label">Phút</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><span class="stat-num">AI</span><span class="stat-label">Phân tích</span></div>
+      </div>
+      <button class="btn-start" id="btn-start" onclick="startTest()"><span class="btn-icon">🚀</span> Bắt đầu Kiểm tra <span class="btn-arrow">→</span></button>
+      <p class="disclaimer">* Kết quả chỉ mang tính tham khảo. Không lưu trữ bất kỳ dữ liệu cá nhân nào.</p>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: TEST -->
+  <section id="screen-test" class="screen">
+    <div class="test-container">
+      <div class="test-header">
+        <div class="progress-info">
+          <span class="progress-label">Câu hỏi</span>
+          <span class="progress-counter"><span id="current-q">1</span> / <span id="total-q">30</span></span>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
+        <div class="progress-percent" id="progress-percent">0%</div>
+      </div>
+      <div class="question-card" id="question-card">
+        <div class="question-category" id="q-category"></div>
+        <div class="question-number" id="q-number"></div>
+        <h2 class="question-text" id="q-text"></h2>
+        <div class="options-grid" id="options-grid"></div>
+      </div>
+      <div class="test-nav">
+        <button class="btn-nav btn-prev" id="btn-prev" onclick="prevQuestion()" disabled>← Câu trước</button>
+        <div class="nav-dots" id="nav-dots"></div>
+        <button class="btn-nav btn-next" id="btn-next" onclick="nextQuestion()" disabled>Câu tiếp →</button>
+      </div>
+      <div class="submit-section" id="submit-section" style="display:none;">
+        <button class="btn-submit" id="btn-submit" onclick="submitTest()"><span>✨</span> Xem Kết Quả & Phân Tích AI</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: LOADING -->
+  <section id="screen-loading" class="screen">
+    <div class="loading-wrapper">
+      <div class="loading-orb">
+        <div class="orb-ring"></div>
+        <div class="orb-ring"></div>
+        <div class="orb-ring"></div>
+        <div class="orb-core">🧠</div>
+      </div>
+      <h2 class="loading-title">AI đang phân tích kết quả...</h2>
+      <p class="loading-desc" id="loading-desc">Đang tính toán điểm số DISC của bạn</p>
+      <div class="loading-steps" id="loading-steps">
+        <div class="load-step active" id="step-1">📊 Phân tích điểm số</div>
+        <div class="load-step" id="step-2">🔍 Xác định kiểu tính cách</div>
+        <div class="load-step" id="step-3">🤖 Gọi AI phân tích</div>
+        <div class="load-step" id="step-4">📝 Tạo báo cáo chi tiết</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: RESULTS -->
+  <section id="screen-results" class="screen">
+    <div class="results-container">
+      <div class="results-header">
+        <div class="results-badge">Kết Quả Của Bạn</div>
+        <h1 class="results-title" id="result-profile-name"></h1>
+        <p class="results-subtitle" id="result-profile-tagline"></p>
+      </div>
+      <div class="score-section">
+        <h2 class="section-title">📊 Điểm Số DISC</h2>
+        <div class="score-bars" id="score-bars"></div>
+      </div>
+      <div class="chart-section">
+        <h2 class="section-title">🎯 Biểu Đồ Tính Cách</h2>
+        <div class="radar-wrapper"><canvas id="disc-radar" width="300" height="300"></canvas></div>
+      </div>
+      <div class="traits-section">
+        <h2 class="section-title">Điểm Mạnh & Thách Thức</h2>
+        <div class="traits-grid" id="traits-grid"></div>
+      </div>
+      <div class="compat-section">
+        <h2 class="section-title">🤝 Khả Năng Tương Thích</h2>
+        <div class="compat-grid" id="compat-grid"></div>
+      </div>
+      <div class="career-section">
+        <h2 class="section-title">💼 Nghề Nghiệp Phù Hợp</h2>
+        <div class="career-tags" id="career-tags"></div>
+      </div>
+      <div class="ai-section" id="ai-section">
+        <div class="ai-header"><span class="ai-icon">🤖</span><h2 class="section-title">Phân Tích Chuyên Sâu từ AI</h2><span class="ai-source-badge" id="ai-source-badge" style="display:none">✨ <span id="ai-source-name"></span></span></div>
+        <div class="ai-content" id="ai-content">
+          <div class="ai-loading-msg" id="ai-loading-msg"><div class="ai-spinner"></div><span>🤖 AI đang phân tích kết quả của bạn...</span></div>
+          <div class="ai-result-text" id="ai-result-text" style="display:none;"></div>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-restart" onclick="restartTest()">🔄 Làm lại bài test</button>
+        <button class="btn-share" onclick="printResult()">🖨️ In / Lưu PDF</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="questions.js"></script>
+  <script src="profiles.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
